@@ -3,6 +3,18 @@
 #include "action_layer.h"
 #include "version.h"
 
+// Timer to detect tap/hold on NEO_RMOD3 key
+static uint16_t neo3_timer;
+// State bitmap to track which key(s) enabled NEO_3 layer
+static uint8_t neo3_state = 0;
+
+// bitmasks for modifier keys
+#define MODS_NONE   0
+#define MODS_SHIFT  (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT))
+#define MODS_CTRL   (MOD_BIT(KC_LCTL)|MOD_BIT(KC_RCTRL))
+#define MODS_ALT    (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
+#define MODS_GUI    (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
+
 // Used to trigger macros / sequences of keypresses
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE,     // can always be here
@@ -12,6 +24,8 @@ enum custom_keycodes {
   US_OSX_CAPITAL_UE,
   US_OSX_CAPITAL_AE,
   US_OSX_CAPITAL_OE,
+  NEO2_LMOD3,
+  NEO2_RMOD3
 };
 
 #define NEO_1   0      // layer_0
@@ -107,11 +121,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
    * |  TAB   |   x  |   v  |   l  |   c  |   w  | LCTL |           | RCTL |   k  |   h  |   g  |   f  |   q  |   ß    |
    * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-   * |  ----  |   u  |   i  |   a  |   e  |   o  |------|           |------|   s  |   n  |   r  |   t  |   d  |   y    |
+   * |  NEO_3 |   u  |   i  |   a  |   e  |   o  |------|           |------|   s  |   n  |   r  |   t  |   d  |   y    |
    * |--------+------+------+------+------+------| LALT |           | RALT |------+------+------+------+------+--------|
    * | LSHIFT |   ü  |   ö  |   ä  |   p  |   z  |      |           |      |   b  |   m  |   ,  |   .  |   j  | RSHIFT |
    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-   *   | LGUI |      | Down | Left | NEO_3|                                       | NEO_3| Right|  Up  |      | RGUI |
+   *   | LGUI | ---- | Down | Left | ---- |                                       | ---- | Right|  Up  | ---- | RGUI |
    *   `----------------------------------'                                       `----------------------------------'
    *                                        ,-------------.       ,-------------.
    *                                        | FKEYS| Home |       | PgUp | FKEYS|
@@ -125,9 +139,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // left hand side - main
     KC_NO /* NOOP */, KC_1,                     KC_2,                     KC_3,                     KC_4,             KC_5,             KC_ESCAPE,
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
-    KC_NO /* NOOP */, KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
+    NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     MO(NEO_2),        US_OSX_SMALL_UE,          US_OSX_SMALL_OE,          US_OSX_SMALL_AE,          KC_P,             KC_Z,             KC_LALT,
-    KC_LGUI,          KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  MO(NEO_3),        /* --- */         /* --- */
+    KC_LGUI,          KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  KC_NO /* NOOP */, /* --- */         /* --- */
 
     // left hand side - thumb cluster
     /* --- */         MO(FKEYS),        KC_HOME,
@@ -137,9 +151,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand side - main
     DF(US_1),         KC_6,             KC_7,             KC_8,             KC_9,             KC_0,             KC_MINUS,
     KC_RCTRL,         KC_K,             KC_H,             KC_G,             KC_F,             KC_Q,             US_OSX_SHARP_S,
-    /* --- */         KC_S,             KC_N,             KC_R,             KC_T,             KC_D,             KC_Y,
+    /* --- */         KC_S,             KC_N,             KC_R,             KC_T,             KC_D,             NEO2_RMOD3,
     KC_RALT,          KC_B,             KC_M,             KC_COMMA,         KC_DOT,           KC_J,             MO(NEO_2),
-    /* --- */         /* --- */         MO(NEO_3),        KC_RIGHT,         KC_UP,            KC_NO /* NOOP */, KC_RGUI,
+    /* --- */         /* --- */         KC_NO /* NOOP */, KC_RIGHT,         KC_UP,            KC_NO /* NOOP */, KC_RGUI,
 
     // right hand side - thumb cluster
     KC_PGUP,          MO(FKEYS),        /* --- */
@@ -231,7 +245,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand side - main
     _______,            US_OSX_CENT,          US_OSX_YEN,           US_OSX_SBQUO,         US_OSX_LEFT_SINGLE_QUOTE,  US_OSX_RIGHT_SINGLE_QUOTE,   KC_NO,
     _______,            US_OSX_EXCLAMATION,   US_OSX_LESSTHAN,      US_OSX_GREATERTHAN,   US_OSX_EQUAL,              US_OSX_AMPERSAND,            US_OSX_SMALL_LONG_S,
-    /* --- */           US_OSX_QUESTIONMARK,  US_OSX_LPARENTHESES,  US_OSX_RPARENTHESES,  US_OSX_HYPHEN_MINUS,       US_OSX_COLON,                US_OSX_AT,
+    /* --- */           US_OSX_QUESTIONMARK,  US_OSX_LPARENTHESES,  US_OSX_RPARENTHESES,  US_OSX_HYPHEN_MINUS,       US_OSX_COLON,                NEO2_RMOD3,
     _______,            US_OSX_PLUS,          US_OSX_PERCENT,       US_OSX_DOUBLE_QUOTE,  US_OSX_SINGLE_QUOTE,       US_OSX_SEMICOLON,            _______,
     /* --- */           /* --- */             _______,              _______,              _______,                   _______,                     _______,
 
@@ -477,31 +491,104 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
+// Send a key tap with a optional set of modifiers.
+void tap_with_modifiers(uint16_t keycode, uint8_t force_modifiers) {
+  uint8_t active_modifiers = get_mods();
+
+  if ((force_modifiers & MODS_SHIFT) && !(active_modifiers & MODS_SHIFT)) register_code(KC_LSFT);
+  if ((force_modifiers & MODS_CTRL) && !(active_modifiers & MODS_CTRL)) register_code(KC_LCTRL);
+  if ((force_modifiers & MODS_ALT) && !(active_modifiers & MODS_ALT)) register_code(KC_LALT);
+  if ((force_modifiers & MODS_GUI) && !(active_modifiers & MODS_GUI)) register_code(KC_LGUI);
+
+  register_code(keycode);
+  unregister_code(keycode);
+
+  if ((force_modifiers & MODS_SHIFT) && !(active_modifiers & MODS_SHIFT)) unregister_code(KC_LSFT);
+  if ((force_modifiers & MODS_CTRL) && !(active_modifiers & MODS_CTRL)) unregister_code(KC_LCTRL);
+  if ((force_modifiers & MODS_ALT) && !(active_modifiers & MODS_ALT)) unregister_code(KC_LALT);
+  if ((force_modifiers & MODS_GUI) && !(active_modifiers & MODS_GUI)) unregister_code(KC_LGUI);
+}
+
 // Runs for each key down or up event.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        switch(keycode) {
-            case US_OSX_SMALL_UE:
-                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_U));
-                return false;
-            case US_OSX_SMALL_AE:
-                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_A));
-                return false;
-            case US_OSX_SMALL_OE:
-                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_O));
-                return false;
-            case US_OSX_CAPITAL_UE:
-                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_U) SS_UP(X_LSHIFT) );
-                return false;
-            case US_OSX_CAPITAL_AE:
-                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_A) SS_UP(X_LSHIFT) );
-                return false;
-            case US_OSX_CAPITAL_OE:
-                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_O) SS_UP(X_LSHIFT) );
-                return false;
+  switch(keycode) {
+    case NEO2_LMOD3:
+      if (record->event.pressed) {
+        layer_on(NEO_3);
+        neo3_state |= (1 << 1);
+      } else {
+        // Turn off NEO_3 layer unless it's enabled through NEO2_RMOD3 as well.
+        if ((neo3_state & ~(1 << 1)) == 0) {
+          layer_off(NEO_3);
         }
-    }
-    return true;
+        neo3_state &= ~(1 << 1);
+      }
+      break;
+    case NEO2_RMOD3:
+      if (record->event.pressed) {
+        neo3_timer = timer_read();
+        neo3_state |= (1 << 2);
+        layer_on(NEO_3);
+      } else {
+        // Turn off NEO_3 layer unless it's enabled through NEO2_LMOD3 as well.
+        if ((neo3_state & ~(1 << 2)) == 0) {
+          layer_off(NEO_3);
+        }
+        neo3_state &= ~(1 << 2);
+
+        // Was the NEO2_RMOD3 key TAPPED?
+        if (timer_elapsed(neo3_timer) <= 150) {
+          if (neo3_state > 0) {
+            // We are still in NEO_3 layer, send keycode and modifiers for @
+            tap_with_modifiers(KC_2, MODS_SHIFT);
+            return false;
+          } else {
+            // Do the normal key processing, send y
+            tap_with_modifiers(KC_Y, MODS_NONE);
+            return false;
+          }
+        }
+      }
+      break;
+    case US_OSX_SMALL_UE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_U));
+        return false;
+      }
+      break;
+    case US_OSX_SMALL_AE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_A));
+        return false;
+      }
+      break;
+    case US_OSX_SMALL_OE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_O));
+        return false;
+      }
+      break;
+    case US_OSX_CAPITAL_UE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_U) SS_UP(X_LSHIFT));
+        return false;
+      }
+      break;
+    case US_OSX_CAPITAL_AE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_A) SS_UP(X_LSHIFT));
+        return false;
+      }
+      break;
+    case US_OSX_CAPITAL_OE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_O) SS_UP(X_LSHIFT));
+        return false;
+      }
+      break;
+  }
+
+  return true;
 };
 
 
