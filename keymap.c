@@ -125,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |--------+------+------+------+------+------| LALT |           | RALT |------+------+------+------+------+--------|
    * | LSHIFT |   ü  |   ö  |   ä  |   p  |   z  |      |           |      |   b  |   m  |   ,  |   .  |   j  | RSHIFT |
    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-   *   | LGUI | ---- | Down | Left | ---- |                                       | ---- | Right|  Up  | ---- | RGUI |
+   *   | ---- | ---- | Down | Left | LGUI |                                       | RGUI | Right|  Up  | ---- | ---- |
    *   `----------------------------------'                                       `----------------------------------'
    *                                        ,-------------.       ,-------------.
    *                                        | FKEYS| Home |       | PgUp | FKEYS|
@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
     NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     MO(NEO_2),        US_OSX_SMALL_UE,          US_OSX_SMALL_OE,          US_OSX_SMALL_AE,          KC_P,             KC_Z,             KC_LALT,
-    KC_LGUI,          KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  KC_NO /* NOOP */, /* --- */         /* --- */
+    KC_NO /* NOOP */, KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  KC_LGUI,          /* --- */         /* --- */
 
     // left hand side - thumb cluster
     /* --- */         MO(FKEYS),        KC_HOME,
@@ -153,7 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_RCTRL,         KC_K,             KC_H,             KC_G,             KC_F,             KC_Q,             US_OSX_SHARP_S,
     /* --- */         KC_S,             KC_N,             KC_R,             KC_T,             KC_D,             NEO2_RMOD3,
     KC_RALT,          KC_B,             KC_M,             KC_COMMA,         KC_DOT,           KC_J,             MO(NEO_2),
-    /* --- */         /* --- */         KC_NO /* NOOP */, KC_RIGHT,         KC_UP,            KC_NO /* NOOP */, KC_RGUI,
+    /* --- */         /* --- */         KC_RGUI,          KC_RIGHT,         KC_UP,            KC_NO /* NOOP */, KC_NO /* NOOP */,
 
     // right hand side - thumb cluster
     KC_PGUP,          MO(FKEYS),        /* --- */
