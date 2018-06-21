@@ -105,9 +105,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |  ----  |   1  |   2  |   3  |   4  |   5  |  ESC |           | US_1 |   6  |   7  |   8  |   9  |   0  |   -    |
    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-   * |  ----  |   x  |   v  |   l  |   c  |   w  | LCTL |           | RCTL |   k  |   h  |   g  |   f  |   q  |   ß    |
+   * |  TAB   |   x  |   v  |   l  |   c  |   w  | LCTL |           | RCTL |   k  |   h  |   g  |   f  |   q  |   ß    |
    * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-   * |  TAB   |   u  |   i  |   a  |   e  |   o  |------|           |------|   s  |   n  |   r  |   t  |   d  |   y    |
+   * |  ----  |   u  |   i  |   a  |   e  |   o  |------|           |------|   s  |   n  |   r  |   t  |   d  |   y    |
    * |--------+------+------+------+------+------| LALT |           | RALT |------+------+------+------+------+--------|
    * | LSHIFT |   ü  |   ö  |   ä  |   p  |   z  |      |           |      |   b  |   m  |   ,  |   .  |   j  | RSHIFT |
    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -124,8 +124,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [NEO_1] = LAYOUT_ergodox(
     // left hand side - main
     KC_NO /* NOOP */, KC_1,                     KC_2,                     KC_3,                     KC_4,             KC_5,             KC_ESCAPE,
-    KC_NO /* NOOP */, KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
-    KC_TAB,           KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
+    KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
+    KC_NO /* NOOP */, KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     MO(NEO_2),        US_OSX_SMALL_UE,          US_OSX_SMALL_OE,          US_OSX_SMALL_AE,          KC_P,             KC_Z,             KC_LALT,
     KC_LGUI,          KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  MO(NEO_3),        /* --- */         /* --- */
 
