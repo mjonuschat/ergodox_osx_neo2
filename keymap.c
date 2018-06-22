@@ -37,6 +37,9 @@ enum custom_keycodes {
 #define US_1    6      // layer_6
 #define FKEYS   7      // layer_7
 
+#define NEO2_LMOD4                  TT(NEO_4)
+#define NEO2_RMOD4                  NEO2_LMOD4
+
 // Use _______ to indicate a key that is transparent / falling through to a lower level
 #define _______ KC_TRNS
 
@@ -146,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // left hand side - thumb cluster
     /* --- */         MO(FKEYS),        KC_HOME,
     /* KC_BSPACE */   /* KC_DELETE */   KC_END,
-    KC_BSPACE,        KC_DELETE,        MO(NEO_4),
+    KC_BSPACE,        KC_DELETE,        NEO2_LMOD4,
 
     // right hand side - main
     DF(US_1),         KC_6,             KC_7,             KC_8,             KC_9,             KC_0,             KC_MINUS,
@@ -158,7 +161,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand side - thumb cluster
     KC_PGUP,          MO(FKEYS),        /* --- */
     KC_PGDOWN,        /* --- */         /* --- */
-    MO(NEO_4),        KC_ENTER,         KC_SPACE
+    NEO2_RMOD4,       KC_ENTER,         KC_SPACE
   ),
 
   /* Keymap 1: Shifted base layer
