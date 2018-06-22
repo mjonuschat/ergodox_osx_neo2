@@ -25,41 +25,39 @@ enum custom_keycodes {
   US_OSX_CAPITAL_AE,
   US_OSX_CAPITAL_OE,
   NEO2_LMOD3,
-  NEO2_RMOD3
+  NEO2_RMOD3,
+  NEO2_1,
+  NEO2_2,
+  NEO2_3,
+  NEO2_4,
+  NEO2_5,
+  NEO2_6,
+  NEO2_7,
+  NEO2_8,
+  NEO2_9,
+  NEO2_0,
+  NEO2_MINUS,
+  NEO2_UE,
+  NEO2_AE,
+  NEO2_OE,
+  NEO2_COMMA,
+  NEO2_DOT,
+  NEO2_SHARP_S
 };
 
 #define NEO_1   0      // layer_0
-#define NEO_2   1      // layer_1
-#define NEO_3   2      // layer_2
-#define NEO_4   3      // layer_3
-#define NEO_5   4      // layer_4
-#define NEO_6   5      // layer_5
-#define US_1    6      // layer_6
-#define FKEYS   7      // layer_7
+#define NEO_3   1      // layer_1
+#define NEO_4   2      // layer_2
+#define NEO_5   3      // layer_3
+#define NEO_6   4      // layer_4
+#define US_1    5      // layer_5
+#define FKEYS   6      // layer_6
 
 #define NEO2_LMOD4                  TT(NEO_4)
 #define NEO2_RMOD4                  NEO2_LMOD4
 
 // Use _______ to indicate a key that is transparent / falling through to a lower level
 #define _______ KC_TRNS
-
-// NEO_1 special characters
-#define US_OSX_SHARP_S              LALT(KC_S)                  // ß
-
-// NEO2 (shifted) characters
-#define US_OSX_DEGREE               LALT(LSFT(KC_8))            // °
-#define US_OSX_SECTION              LALT(KC_6)                  // §
-#define US_OSX_SCRIPT_SMALL_L       KC_NO                       // 𝓁 - Unsupported on OSX
-#define US_OSX_RAQUO                LALT(LSFT(KC_BSLASH))       // »
-#define US_OSX_LAQUO                LALT(KC_BSLASH)             // »
-#define US_OSX_DOLLAR               KC_DOLLAR                   // $
-#define US_OSX_EURO                 LALT(LSFT(KC_2))            // €
-#define US_OSX_BDQUO                LALT(LSFT(KC_W))            // „
-#define US_OSX_LEFT_DOUBLE_QUOTE    LALT(KC_LBRACKET)           // “
-#define US_OSX_RIGHT_DOUBLE_QUOTE   LALT(LSFT(KC_LBRACKET))     // ”
-#define US_OSX_EM_DASH              LALT(LSFT(KC_MINUS))        // —
-#define US_OSX_EN_DASH              LALT(KC_MINUS)              // -
-#define US_OSX_BULLET               LALT(KC_8)                  // •
 
 // NEO_3 special characters
 #define US_OSX_SUPERSCRIPT_1        KC_NO                       // ¹
@@ -113,20 +111,20 @@ enum custom_keycodes {
 #define US_OSX_CURRENCY_SIGN        KC_NO                       // ¤
 #define US_OSX_INV_EXCLAMATION      LALT(KC_1)                  // ¡
 #define US_OSX_INV_QUESTIONMARK     LALT(LSFT(KC_SLASH))        // ¿
-
-
+#define US_OSX_DOLLAR               KC_DOLLAR                   // $
+#define US_OSX_EM_DASH              LALT(LSFT(KC_MINUS))        // —
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /* Keymap 0: Basic layer
+  /* NEO_1: Basic layer
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
-   * |  ----  |   1  |   2  |   3  |   4  |   5  |  ESC |           | US_1 |   6  |   7  |   8  |   9  |   0  |   -    |
+   * |  ----  |  1/° |  2/§ |  3/  |  4/» |  5/« |  ESC |           | US_1 |  6/$ |  7/€ |  8/„ |  9/“ |  0/” |  -/—   |
    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-   * |  TAB   |   x  |   v  |   l  |   c  |   w  | LCTL |           | RCTL |   k  |   h  |   g  |   f  |   q  |   ß    |
+   * |  TAB   |   X  |   V  |   L  |   C  |   W  | LCTL |           | RCTL |   K  |   H  |   G  |   F  |   Q  |   ß    |
    * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-   * |  NEO_3 |   u  |   i  |   a  |   e  |   o  |------|           |------|   s  |   n  |   r  |   t  |   d  |   y    |
+   * |  NEO_3 |   U  |   I  |   A  |   E  |   O  |------|           |------|   S  |   N  |   R  |   T  |   D  |   Y    |
    * |--------+------+------+------+------+------| LALT |           | RALT |------+------+------+------+------+--------|
-   * | LSHIFT |   ü  |   ö  |   ä  |   p  |   z  |      |           |      |   b  |   m  |   ,  |   .  |   j  | RSHIFT |
+   * | LSHIFT |   Ü  |   Ö  |   Ä  |   P  |   Z  |      |           |      |   B  |   M  |  ,/– |  ./• |   J  | RSHIFT |
    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
    *   | ---- | ---- | Down | Left | LGUI |                                       | RGUI | Right|  Up  | ---- | ---- |
    *   `----------------------------------'                                       `----------------------------------'
@@ -140,10 +138,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   [NEO_1] = LAYOUT_ergodox(
     // left hand side - main
-    KC_NO /* NOOP */, KC_1,                     KC_2,                     KC_3,                     KC_4,             KC_5,             KC_ESCAPE,
+    KC_NO /* NOOP */, NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
     NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
-    MO(NEO_2),        US_OSX_SMALL_UE,          US_OSX_SMALL_OE,          US_OSX_SMALL_AE,          KC_P,             KC_Z,             KC_LALT,
+    KC_LSHIFT,        NEO2_UE,                  NEO2_OE,                  NEO2_AE,                  KC_P,             KC_Z,             KC_LALT,
     KC_NO /* NOOP */, KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  KC_LGUI,          /* --- */         /* --- */
 
     // left hand side - thumb cluster
@@ -152,10 +150,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_BSPACE,        KC_DELETE,        NEO2_LMOD4,
 
     // right hand side - main
-    DF(US_1),         KC_6,             KC_7,             KC_8,             KC_9,             KC_0,             KC_MINUS,
-    KC_RCTRL,         KC_K,             KC_H,             KC_G,             KC_F,             KC_Q,             US_OSX_SHARP_S,
+    DF(US_1),         NEO2_6,           NEO2_7,           NEO2_8,           NEO2_9,           NEO2_0,           NEO2_MINUS,
+    KC_RCTRL,         KC_K,             KC_H,             KC_G,             KC_F,             KC_Q,             NEO2_SHARP_S,
     /* --- */         KC_S,             KC_N,             KC_R,             KC_T,             KC_D,             NEO2_RMOD3,
-    KC_RALT,          KC_B,             KC_M,             KC_COMMA,         KC_DOT,           KC_J,             MO(NEO_2),
+    KC_RALT,          KC_B,             KC_M,             NEO2_COMMA,       NEO2_DOT,         KC_J,             KC_RSHIFT,
     /* --- */         /* --- */         KC_RGUI,          KC_RIGHT,         KC_UP,            KC_NO /* NOOP */, KC_NO /* NOOP */,
 
     // right hand side - thumb cluster
@@ -164,54 +162,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     NEO2_RMOD4,       KC_ENTER,         KC_SPACE
   ),
 
-  /* Keymap 1: Shifted base layer
-   *
-   * ,--------------------------------------------------.           ,--------------------------------------------------.
-   * |  ----  |   °  |   §  |   »  |   «  |   $  |      |           |      |   $  |   €  |   "  |   “  |   ”  |   -    |
-   * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-   * |        |   X  |   V  |   L  |   C  |   W  |      |           |      |   K  |   H  |   G  |   F  |   Q  |   ß    |
-   * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-   * |        |   U  |   I  |   A  |   E  |   O  |------|           |------|   S  |   N  |   R  |   T  |   D  |   Y    |
-   * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-   * |        |   Ü  |   Ö  |   Ä  |   P  |   Z  |      |           |      |   B  |   M  |   -  |   •  |   J  |        |
-   * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-   *   |      |      |      |      |      |                                       |      |   |      |      |      |
-   *   `----------------------------------'                                       `----------------------------------'
-   *                                        ,-------------.       ,-------------.
-   *                                        |      |      |       |      |      |
-   *                                 ,------|------|------|       |------+------+------.
-   *                                 |      |      |      |       |      |      |      |
-   *                                 |      |      |------|       |------|      |      |
-   *                                 |      |      |      |       |      |      |      |
-   *                                 `--------------------'       `--------------------'
-   */
-  [NEO_2] = LAYOUT_ergodox(
-    // left hand side - main
-    KC_NO /* NOOP */, US_OSX_DEGREE,              US_OSX_SECTION,             US_OSX_SCRIPT_SMALL_L,      US_OSX_RAQUO,   US_OSX_LAQUO,   _______,
-    _______,          S(KC_X),                    S(KC_V),                    S(KC_L),                    S(KC_C),        S(KC_W),        _______,
-    _______,          S(KC_U),                    S(KC_I),                    S(KC_A),                    S(KC_E),        S(KC_O),        /* --- */
-    _______,          US_OSX_CAPITAL_UE,          US_OSX_CAPITAL_OE,          US_OSX_CAPITAL_AE,          S(KC_P),        S(KC_Z),        _______,
-    _______,          _______,                    _______,                    _______,                    _______,        /* --- */       /* --- */
-
-    // left hand side - thumb cluster
-    /* --- */         _______,          _______,
-    /* --- */         /* --- */         _______,
-    _______,          _______,          _______,
-
-    // right hand side - main
-    _______,          US_OSX_DOLLAR,    US_OSX_EURO,      US_OSX_BDQUO,           US_OSX_LEFT_DOUBLE_QUOTE,     US_OSX_RIGHT_DOUBLE_QUOTE,    US_OSX_EM_DASH,
-    _______,          S(KC_K),          S(KC_H),          S(KC_G),                S(KC_F),                      S(KC_Q),                      _______,
-    /* --- */         S(KC_S),          S(KC_N),          S(KC_R),                S(KC_T),                      S(KC_D),                      S(KC_Y),
-    _______,          S(KC_B),          S(KC_M),          US_OSX_HYPHEN_MINUS,    US_OSX_BULLET,                S(KC_J),                      _______,
-    /* --- */         /* --- */         _______,          _______,                _______,                      _______,                      _______,
-
-    // right hand side - thumb cluster
-    _______,          _______,          /* --- */
-    _______,          /* --- */         /* --- */
-    _______,          _______,          _______
-  ),
-
-  /* Keymap 2: Symbol layer
+  /* NEO_3: Symbol layer
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |  ----  | ---- | ---- | ---- |   ›  |   ‹  |      |           |      |   ¢ 	|   ¥  |   ‚  |   ‘  |   ’  |  ----  |
@@ -258,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,            _______,              _______
   ),
 
-  /* Keymap 3: Cursor & Numpad
+  /* NEO_4: Cursor & Numpad
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |  ----  |   ª  |   º  | ---- |   ·  |   £  |      |           |      | ---- | Tab  |   /  |   *  |   -  |  ----  |
@@ -305,7 +256,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,            _______,                  _______
   ),
 
-  /* Keymap 4: Greek
+  /* NEO_5: Greek
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |  ----  | ---- | ---- | ---- | ---- | ---- |      |           |      | ---- | ---- | ---- | ---- | ---- |  ----  |
@@ -352,7 +303,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,            _______,            _______
   ),
 
-  /* Keymap 5: Math symbols
+  /* NEO_6: Math symbols
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |  ----  | ---- | ---- | ---- | ---- | ---- |      |           |      | ---- | ---- | ---- | ---- | ---- |  ----  |
@@ -399,7 +350,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,            _______,            _______
   ),
 
-  /* Keymap 6: US QWERTY
+  /* US_1: US QWERTY
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |   =    |   1  |   2  |   3  |   4  |   5  | ESC  |           | NEO_1|   6  |   7  |   8  |   9  |   0  |    -   |
@@ -446,7 +397,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_PGDOWN,        KC_ENTER,     KC_SPACE
   ),
 
-  /* Keymap 7: Function keys
+  /* FKEYS: Function keys
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
    * |        |  F1  |  F2  |  F3  |  F4  |  F5  |  F11 |           |  F12 |  F6  |  F7  |  F8  |  F9  |  F10 |        |
@@ -512,6 +463,153 @@ void tap_with_modifiers(uint16_t keycode, uint8_t force_modifiers) {
   if ((force_modifiers & MODS_GUI) && !(active_modifiers & MODS_GUI)) unregister_code(KC_LGUI);
 }
 
+// Special remapping for keys with different keycodes/macros when used with shift modifiers.
+bool process_record_user_shifted(uint16_t keycode, keyrecord_t *record) {
+  uint8_t active_modifiers = get_mods();
+  uint8_t shifted = active_modifiers & MODS_SHIFT;
+
+  // Early return on key release
+  if(!record->event.pressed) {
+    return true;
+  }
+
+  if(shifted) {
+    clear_mods();
+
+    switch(keycode) {
+      case NEO2_1:
+        // degree symbol
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_8) SS_UP(X_LSHIFT) SS_UP(X_LALT));
+        break;
+      case NEO2_2:
+        // section symbol
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_6) SS_UP(X_LALT));
+        break;
+      case NEO2_3:
+        // There is no OSX key combination for the script small l character
+        break;
+      case NEO2_4:
+        // right angled quote
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_BSLASH) SS_UP(X_LSHIFT) SS_UP(X_LALT));
+        break;
+      case NEO2_5:
+        // left angled quote
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_BSLASH) SS_UP(X_LALT));
+        break;
+      case NEO2_6:
+        // dollar sign
+        SEND_STRING(SS_DOWN(X_LSHIFT) SS_TAP(X_4) SS_UP(X_LSHIFT));
+        break;
+      case NEO2_7:
+        // euro sign
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_2) SS_UP(X_LSHIFT) SS_UP(X_LALT));
+        break;
+      case NEO2_8:
+        // low9 double quote
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_W) SS_UP(X_LSHIFT) SS_UP(X_LALT));
+        break;
+      case NEO2_9:
+        // left double quote
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_LBRACKET) SS_UP(X_LALT));
+        break;
+      case NEO2_0:
+        // right double quote
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_LBRACKET) SS_UP(X_LSHIFT) SS_UP(X_LALT));
+        break;
+      case NEO2_MINUS:
+        // em dash
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_MINUS) SS_UP(X_LSHIFT) SS_UP(X_LALT));
+        break;
+      case NEO2_COMMA:
+        // en dash
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_MINUS) SS_UP(X_LALT));
+        break;
+      case NEO2_DOT:
+        // bullet
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_8) SS_UP(X_LALT));
+        break;
+      case NEO2_SHARP_S:
+        // german sharp s
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_S) SS_UP(X_LALT));
+        break;
+      case NEO2_UE:
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_U) SS_UP(X_LSHIFT));
+        break;
+      case NEO2_OE:
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_O) SS_UP(X_LSHIFT));
+        break;
+      case NEO2_AE:
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_A) SS_UP(X_LSHIFT));
+        break;
+      default:
+        set_mods(active_modifiers);
+        return true;
+    }
+
+    set_mods(active_modifiers);
+    return false;
+  } else {
+    switch(keycode) {
+      case NEO2_1:
+        SEND_STRING(SS_TAP(X_1));
+        break;
+      case NEO2_2:
+        SEND_STRING(SS_TAP(X_2));
+        break;
+      case NEO2_3:
+        SEND_STRING(SS_TAP(X_3));
+        break;
+      case NEO2_4:
+        SEND_STRING(SS_TAP(X_4));
+        break;
+      case NEO2_5:
+        SEND_STRING(SS_TAP(X_5));
+        break;
+      case NEO2_6:
+        SEND_STRING(SS_TAP(X_6));
+        break;
+      case NEO2_7:
+        SEND_STRING(SS_TAP(X_7));
+        break;
+      case NEO2_8:
+        SEND_STRING(SS_TAP(X_8));
+        break;
+      case NEO2_9:
+        SEND_STRING(SS_TAP(X_9));
+        break;
+      case NEO2_0:
+        SEND_STRING(SS_TAP(X_0));
+        break;
+      case NEO2_MINUS:
+        SEND_STRING(SS_TAP(X_MINUS));
+        break;
+      case NEO2_COMMA:
+        SEND_STRING(SS_TAP(X_COMMA));
+        break;
+      case NEO2_DOT:
+        SEND_STRING(SS_TAP(X_DOT));
+        break;
+      case NEO2_SHARP_S:
+        // german sharp s
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_S) SS_UP(X_LALT));
+        break;
+      case NEO2_UE:
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_U));
+        break;
+      case NEO2_OE:
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_O));
+        break;
+      case NEO2_AE:
+        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_A));
+        break;
+      default:
+        return true;
+    }
+
+    return false;
+  }
+}
+
 // Runs for each key down or up event.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
@@ -553,45 +651,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
-    case US_OSX_SMALL_UE:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_U));
-        return false;
-      }
-      break;
-    case US_OSX_SMALL_AE:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_A));
-        return false;
-      }
-      break;
-    case US_OSX_SMALL_OE:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_TAP(X_O));
-        return false;
-      }
-      break;
-    case US_OSX_CAPITAL_UE:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_U) SS_UP(X_LSHIFT));
-        return false;
-      }
-      break;
-    case US_OSX_CAPITAL_AE:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_A) SS_UP(X_LSHIFT));
-        return false;
-      }
-      break;
-    case US_OSX_CAPITAL_OE:
-      if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_U) SS_UP(X_U) SS_UP(X_LALT) SS_DOWN(X_LSHIFT) SS_TAP(X_O) SS_UP(X_LSHIFT));
-        return false;
-      }
-      break;
   }
 
-  return true;
+  return process_record_user_shifted(keycode, record);
 };
 
 
