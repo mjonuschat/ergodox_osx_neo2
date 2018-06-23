@@ -118,7 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* NEO_1: Basic layer
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
-   * |  ----  |  1/° |  2/§ |  3/  |  4/» |  5/« |  ESC |           | US_1 |  6/$ |  7/€ |  8/„ |  9/“ |  0/” |  -/—   |
+   * |  CAPS  |  1/° |  2/§ |  3/  |  4/» |  5/« |  ESC |           | US_1 |  6/$ |  7/€ |  8/„ |  9/“ |  0/” |  -/—   |
    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
    * |  TAB   |   X  |   V  |   L  |   C  |   W  | LCTL |           | RCTL |   K  |   H  |   G  |   F  |   Q  |   ß    |
    * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -138,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   [NEO_1] = LAYOUT_ergodox(
     // left hand side - main
-    KC_NO /* NOOP */, NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
+    KC_CAPSLOCK,      NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
     NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     KC_LSHIFT,        NEO2_UE,                  NEO2_OE,                  NEO2_AE,                  KC_P,             KC_Z,             KC_LALT,
