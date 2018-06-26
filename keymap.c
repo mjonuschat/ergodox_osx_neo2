@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
+#include "layers.h"
 
 // Timer to detect tap/hold on NEO_RMOD3 key
 static uint16_t neo3_timer;
@@ -46,14 +47,6 @@ enum custom_keycodes {
   NEO2_DOT,
   NEO2_SHARP_S
 };
-
-#define NEO_1   0      // layer_0
-#define NEO_3   1      // layer_1
-#define NEO_4   2      // layer_2
-#define NEO_5   3      // layer_3
-#define NEO_6   4      // layer_4
-#define US_1    5      // layer_5
-#define FKEYS   6      // layer_6
 
 #define NEO2_LMOD4                  TT(NEO_4)
 #define NEO2_RMOD4                  NEO2_LMOD4
@@ -152,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_BSPACE,        KC_DELETE,        NEO2_LMOD4,
 
     // right hand side - main
-    DF(US_1),         NEO2_6,           NEO2_7,           NEO2_8,           NEO2_9,           NEO2_0,           NEO2_MINUS,
+    TO(US_1),         NEO2_6,           NEO2_7,           NEO2_8,           NEO2_9,           NEO2_0,           NEO2_MINUS,
     KC_RCTRL,         KC_K,             KC_H,             KC_G,             KC_F,             KC_Q,             NEO2_SHARP_S,
     /* --- */         KC_S,             KC_N,             KC_R,             KC_T,             KC_D,             NEO2_RMOD3,
     KC_RALT,          KC_B,             KC_M,             NEO2_COMMA,       NEO2_DOT,         KC_J,             KC_RSHIFT,
@@ -387,7 +380,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_BSPACE,        KC_DELETE,    KC_END,
 
     // right hand side - main
-    DF(NEO_1),        KC_6,         KC_7,       KC_8,       KC_9,       KC_0,       KC_MINUS,
+    TO(NEO_1),        KC_6,         KC_7,       KC_8,       KC_9,       KC_0,       KC_MINUS,
     KC_LBRACKET,      KC_Y,         KC_U,       KC_I,       KC_O,       KC_P,       KC_RBRACKET,
     /* --- */         KC_H,         KC_J,       KC_K,       KC_L,       KC_SCOLON,  KC_QUOTE,
     KC_NO /* NOOP */, KC_N,         KC_M,       KC_COMMA,   KC_DOT,     KC_SLASH,   KC_RSHIFT,
