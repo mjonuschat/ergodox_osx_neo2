@@ -7,6 +7,8 @@
 static uint16_t neo3_timer;
 // State bitmap to track which key(s) enabled NEO_3 layer
 static uint8_t neo3_state = 0;
+// State bitmap to track key combo for CAPSLOCK
+static uint8_t capslock_state = 0;
 
 // bitmasks for modifier keys
 #define MODS_NONE   0
@@ -118,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* NEO_1: Basic layer
    *
    * ,--------------------------------------------------.           ,--------------------------------------------------.
-   * |  CAPS  |  1/° |  2/§ |  3/  |  4/» |  5/« |  ESC |           | US_1 |  6/$ |  7/€ |  8/„ |  9/“ |  0/” |  -/—   |
+   * |  ----  |  1/° |  2/§ |  3/  |  4/» |  5/« |  ESC |           | US_1 |  6/$ |  7/€ |  8/„ |  9/“ |  0/” |  -/—   |
    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
    * |  TAB   |   X  |   V  |   L  |   C  |   W  | LCTL |           | RCTL |   K  |   H  |   G  |   F  |   Q  |   ß    |
    * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -138,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   [NEO_1] = LAYOUT_ergodox(
     // left hand side - main
-    KC_CAPSLOCK,      NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
+    KC_NO /* NOOP */, NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
     NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     KC_LSHIFT,        NEO2_UE,                  NEO2_OE,                  NEO2_AE,                  KC_P,             KC_Z,             KC_LALT,
@@ -613,6 +615,20 @@ bool process_record_user_shifted(uint16_t keycode, keyrecord_t *record) {
 // Runs for each key down or up event.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
+    case KC_LSHIFT:
+      if (record->event.pressed) {
+        capslock_state |= (MOD_BIT(KC_LSHIFT));
+      } else {
+        capslock_state &= ~(MOD_BIT(KC_LSHIFT));
+      }
+      break;
+    case KC_RSHIFT:
+      if (record->event.pressed) {
+        capslock_state |= MOD_BIT(KC_RSHIFT);
+      } else {
+        capslock_state &= ~(MOD_BIT(KC_RSHIFT));
+      }
+      break;
     case NEO2_LMOD3:
       if (record->event.pressed) {
         layer_on(NEO_3);
@@ -651,6 +667,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
+  }
+
+  if ((capslock_state & MODS_SHIFT) == MODS_SHIFT) {
+    // CAPSLOCK is currently active, disable it
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+      unregister_code(KC_LOCKING_CAPS);
+    } else {
+      register_code(KC_LOCKING_CAPS);
+    }
+    return false;
   }
 
   return process_record_user_shifted(keycode, record);
