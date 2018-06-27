@@ -354,7 +354,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
    * |  TAB   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |    '   |
    * |--------+------+------+------+------+------| ---- |           | ---- |------+------+------+------+------+--------|
-   * | LSHIFT |   Z  |   X  |   V  |   B  |   M  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RSHIFT |
+   * | LSHIFT |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RSHIFT |
    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
    *   | LGUI |   `  | ---- | ---- | FKEYS|                                       | Left | Down |  Up  | Right| RGUI |
    *   `----------------------------------'                                       `----------------------------------'
@@ -371,7 +371,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_EQUAL,         KC_1,         KC_2,       KC_3,       KC_4,       KC_5,       KC_ESCAPE,
     KC_BSLASH,        KC_Q,         KC_W,       KC_E,       KC_R,       KC_T,       KC_NO /* NOOP */,
     KC_TAB,           KC_A,         KC_S,       KC_D,       KC_F,       KC_G,       /* --- */
-    KC_LSHIFT,        KC_Z,         KC_X,       KC_V,       KC_B,       KC_M,       KC_NO /* NOOP */,
+    KC_LSHIFT,        KC_Z,         KC_X,       KC_C,       KC_V,       KC_B,       KC_NO /* NOOP */,
     KC_LGUI,          KC_GRAVE,     KC_NO,      KC_NO,      MO(FKEYS),  /* --- */   /* --- */
 
     // left hand side - thumb cluster
