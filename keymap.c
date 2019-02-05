@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |--------+------+------+------+------+------| LALT |           | RALT |------+------+------+------+------+--------|
    * | LSHIFT |   Ü  |   Ö  |   Ä  |   P  |   Z  |      |           |      |   B  |   M  |  ,/– |  ./• |   J  | RSHIFT |
    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-   *   | ---- | ---- | Down | Left | LGUI |                                       | RGUI | Right|  Up  | ---- | ---- |
+   *   | ---- | ---- | LCTL | LALT | LGUI |                                       | RGUI | Left | Down |  Up  | Right|
    *   `----------------------------------'                                       `----------------------------------'
    *                                        ,-------------.       ,-------------.
    *                                        | FKEYS| Home |       | PgUp | FKEYS|
@@ -137,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
     NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     KC_LSHIFT,        NEO2_UE,                  NEO2_OE,                  NEO2_AE,                  KC_P,             KC_Z,             KC_LALT,
-    KC_NO /* NOOP */, KC_NO /* NOOP */,         KC_DOWN,                  KC_LEFT,                  KC_LGUI,          /* --- */         /* --- */
+    KC_NO /* NOOP */, KC_NO /* NOOP */,         KC_LCTRL,                 KC_LALT,                  KC_LGUI,          /* --- */         /* --- */
 
     // left hand side - thumb cluster
     /* --- */         MO(FKEYS),        KC_HOME,
@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_RCTRL,         KC_K,             KC_H,             KC_G,             KC_F,             KC_Q,             NEO2_SHARP_S,
     /* --- */         KC_S,             KC_N,             KC_R,             KC_T,             KC_D,             NEO2_RMOD3,
     KC_RALT,          KC_B,             KC_M,             NEO2_COMMA,       NEO2_DOT,         KC_J,             KC_RSHIFT,
-    /* --- */         /* --- */         KC_RGUI,          KC_RIGHT,         KC_UP,            KC_NO /* NOOP */, KC_NO /* NOOP */,
+    /* --- */         /* --- */         KC_RGUI,          KC_LEFT,          KC_DOWN,          KC_UP,            KC_RIGHT,
 
     // right hand side - thumb cluster
     KC_PGUP,          MO(FKEYS),        /* --- */
